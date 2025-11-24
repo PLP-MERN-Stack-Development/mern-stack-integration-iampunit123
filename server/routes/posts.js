@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Post = require('../models/Post');
-const auth = require('../middleware/auth');
+const auth = require('../middleWare/auth');
 
 // ✅ GET all posts with pagination and filtering
 router.get('/', async (req, res) => {

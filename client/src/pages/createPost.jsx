@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import axios from 'axios';
+import api from '../services/Api';
 
 const CreatePost = () => {
   const [formData, setFormData] = useState({
@@ -59,7 +59,7 @@ const CreatePost = () => {
         tags: formData.tags.split(',').map(tag => tag.trim()).filter(tag => tag)
       };
 
-      const res = await axios.post('https://backend-server-blog-trial.onrender.com/api/posts', postData);
+      const res = await api.post('/api/posts', postData);
       navigate(`/post/${res.data._id}`);
     } catch (error) {
       setError(error.response?.data?.message || 'Failed to create post');
@@ -245,7 +245,7 @@ const CreatePost = () => {
               <button
                 type="submit"
                 disabled={loading}
-                className="flex-1 bg-gradient-to-r from-purple-600 to-pink-600 text-white py-3 px-6 rounded-lg font-semibold hover:from-purple-700 hover:to-pink-700 transition duration-300 disabled:opacity-50"
+                className="flex-1 bg-linear-to-r from-purple-600 to-pink-600 text-white py-3 px-6 rounded-lg font-semibold hover:from-purple-700 hover:to-pink-700 transition duration-300 disabled:opacity-50"
               >
                 {loading ? 'Publishing...' : 'Publish Story'}
               </button>

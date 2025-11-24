@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
+import api from '../services/Api';
 
 const Home = () => {
   const [posts, setPosts] = useState([]);
@@ -12,25 +12,25 @@ const Home = () => {
     fetchFeaturedPosts();
   }, []);
 
- const fetchPosts = async () => {
-  try {
-    const res = await axios.get('https://backend-server-blog-trial.onrender.com/api/posts?limit=6');
-    setPosts(res.data.posts);
-  } catch (error) {
-    console.error('Error fetching posts:', error);
-  } finally {
-    setLoading(false);
-  }
-};
+  const fetchPosts = async () => {
+    try {
+      const res = await api.get('/api/posts?limit=6');
+      setPosts(res.data.posts);
+    } catch (error) {
+      console.error('Error fetching posts:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-const fetchFeaturedPosts = async () => {
-  try {
-    const res = await axios.get('https://backend-server-blog-trial.onrender.com/api/posts?featured=true&limit=3');
-    setFeaturedPosts(res.data.posts);
-  } catch (error) {
-    console.error('Error fetching featured posts:', error);
-  }
-};
+  const fetchFeaturedPosts = async () => {
+    try {
+      const res = await api.get('/api/posts?featured=true&limit=3');
+      setFeaturedPosts(res.data.posts);
+    } catch (error) {
+      console.error('Error fetching featured posts:', error);
+    }
+  };
 
   const categories = [
     { name: 'Technology', icon: '💻', color: 'bg-blue-100 text-blue-600' },
@@ -57,7 +57,7 @@ const fetchFeaturedPosts = async () => {
           <div className="text-center fade-in">
             <h1 className="text-5xl md:text-7xl font-bold mb-6">
               Share Your
-              <span className="block bg-clip-text text-transparent bg-gradient-to-r from-yellow-300 to-pink-300">
+              <span className="block bg-clip-text text-transparent bg-linear-to-r from-yellow-300 to-pink-300">
                 Great Story
               </span>
             </h1>

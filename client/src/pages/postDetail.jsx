@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import api from '../services/Api';
 import { useAuth } from '../context/AuthContext';
 
 const PostDetail = () => {
@@ -20,7 +20,7 @@ const PostDetail = () => {
 
   const fetchPost = async () => {
     try {
-      const res = await axios.get(`https://backend-server-blog-trial.onrender.com/api/posts?/${id}`);
+      const res = await api.get(`/api/posts/${id}`);
       setPost(res.data);
     } catch (error) {
       setError('Post not found');
@@ -31,8 +31,7 @@ const PostDetail = () => {
 
   const fetchRelatedPosts = async () => {
     try {
-      const res = await axios.get(`https://backend-server-blog-trial.onrender.com/api/posts/${id}`);
-
+      const res = await api.get(`/api/posts?limit=3`);
       setRelatedPosts(res.data.posts.filter(p => p._id !== id));
     } catch (error) {
       console.error('Error fetching related posts:', error);
@@ -43,7 +42,7 @@ const PostDetail = () => {
     if (!window.confirm('Are you sure you want to delete this post?')) return;
 
     try {
-      await axios.delete(`https://backend-server-blog-trial.onrender.com/api/posts/${id}`);
+      await api.delete(`/api/posts/${id}`);
       navigate('/');
     } catch (error) {
       setError('Failed to delete post');
